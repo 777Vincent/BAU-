@@ -16,7 +16,14 @@ interface IMessageCreate {
 function playBau() {
     const audioElement = document.createElement("audio");
     audioElement.src = bauURL;
-    audioElement.play();
+    audioElement.play().catch((error) => {
+        console.error(`Failed to play sound: ${error.message}`);
+    });
+    audioElement.onended = () => {
+        if (audioElement) {
+            audioElement.remove();
+        }
+    };
 }
 
 export default definePlugin({
